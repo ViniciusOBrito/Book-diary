@@ -1,10 +1,12 @@
 package com.brito.bookdiary.user;
 
+import com.brito.bookdiary.post.Post;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -25,4 +27,6 @@ public class User {
     private String password;
     @Column(name = "phone", unique = true)
     private String phone;
+    @OneToMany(mappedBy = "userAuthor")
+    private List<Post> posts;
 }
