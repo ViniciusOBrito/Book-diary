@@ -19,6 +19,9 @@ public class Publisher {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
     @OneToMany(mappedBy = "publisher")
     private List<Book> books;
 }
