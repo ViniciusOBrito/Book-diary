@@ -1,4 +1,4 @@
-package com.brito.bookdiary.user;
+package com.brito.bookdiary.admin;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
-
-    Optional<User> findByEmail(String email);
+public interface AdminRepository extends JpaRepository<Admin, UUID> {
+    Optional<Admin> findByEmail(String name);
 }

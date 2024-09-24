@@ -26,7 +26,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = getTokenFromRequest(request);
         if(nonNull(token) && tokenService.validateToken(token)){
-            String username = tokenService.getUsernameFromToken(token);
+            String username = tokenService.getEmailFromToken(token);
             String role = tokenService.getRoleFromToken(token);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     username, null, Collections.singletonList(()-> role)

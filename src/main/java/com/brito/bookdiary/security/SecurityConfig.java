@@ -22,7 +22,10 @@ public class SecurityConfig {
     private SecurityFilter securityFilter;
 
     private static final String[] ENDPOINTS_RELEASED = {
-            "api/"
+            "api/auth/user/login",
+            "api/auth/user/register",
+            "api/auth/admin/login",
+            "api/auth/admin/register"
     };
 
     private static final String[] ENDPOINTS_USER_ADMIN_AUTHORIZATION = {
