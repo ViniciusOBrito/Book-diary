@@ -4,6 +4,7 @@ import com.brito.bookdiary.post.dto.PostRequestDTO;
 import com.brito.bookdiary.post.dto.PostRespondeDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<PostRespondeDTO> createPost(@RequestBody @Valid PostRequestDTO dto){
-        return ResponseEntity.ok(postService.createPost(dto));
+    public ResponseEntity<PostRespondeDTO> createPost(@RequestBody @Valid PostRequestDTO dto, HttpRequest request){
+        return ResponseEntity.ok(postService.createPost(dto, request));
     }
 }

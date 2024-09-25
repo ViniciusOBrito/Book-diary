@@ -16,7 +16,7 @@ public class Bookshelf {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "category", nullable = false)
+    @Column(name = "category", nullable = false, unique = true)
     private String category;
 
     @OneToMany
