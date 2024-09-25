@@ -4,6 +4,7 @@ package com.brito.bookdiary.security;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,8 +26,7 @@ public class SecurityConfig {
             "/api/auth/user/login",
             "/api/auth/user/register",
             "/api/auth/admin/login",
-            "/api/auth/admin/register",
-            "/api/**"
+            "/api/auth/admin/register"
     };
 
     private static final String[] ENDPOINTS_USER_ADMIN_AUTHORIZATION = {
@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(ENDPOINTS_RELEASED).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/author").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

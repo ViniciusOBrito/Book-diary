@@ -44,7 +44,11 @@ public class TokenService {
                     .build()
                     .verify(token);
             return true;
-        }catch (JWTVerificationException e){
+        } catch (JWTVerificationException e) {
+            log.error("Invalid JWT token: {}", e.getMessage());
+            return false;
+        } catch (Exception e) {
+            log.error("Error validating JWT token: {}", e.getMessage());
             return false;
         }
     }
@@ -71,15 +75,6 @@ public class TokenService {
                 .build()
                 .verify(token)
                 .getClaim("role").toString();
-    }
-
-    public Instant getExpirationTimeFromToken(String token){
-        return JWT.require(getAlgorithm())
-                .withIssuer("login-auth-api")
-                .build()
-                .verify(token)
-                .getExpiresAt()
-                .toInstant();
     }
 
     public Instant generateExpirationInstant(){
