@@ -1,6 +1,7 @@
 package com.brito.bookdiary.author;
 
 import com.brito.bookdiary.book.Book;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,5 +28,6 @@ public class Author {
     private Date dateOfBirth;
 
     @OneToMany(mappedBy = "author")
+    @JsonBackReference
     private List<Book> books;
 }

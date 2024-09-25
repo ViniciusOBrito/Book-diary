@@ -9,5 +9,5 @@ import java.util.UUID;
 @Repository
 public interface BookshelfRepository extends JpaRepository<Bookshelf, UUID> {
 
-    Optional<Bookshelf> findByCategory(String category);
+    Optional<Bookshelf> findByCategory(Category category);
 }

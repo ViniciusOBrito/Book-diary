@@ -1,6 +1,7 @@
 package com.brito.bookdiary.publisher;
 
 import com.brito.bookdiary.book.Book;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,5 +24,6 @@ public class Publisher {
     private String email;
 
     @OneToMany(mappedBy = "publisher")
+    @JsonBackReference
     private List<Book> books;
 }

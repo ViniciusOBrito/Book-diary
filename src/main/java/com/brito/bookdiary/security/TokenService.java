@@ -27,7 +27,7 @@ public class TokenService {
     public String generateToken(String subject,String role){
         try{
             return JWT.create()
-                    .withIssuer("auth-api")
+                    .withIssuer("login-auth-api")
                     .withSubject(subject)
                     .withClaim("role", role)
                     .withExpiresAt(generateExpirationInstant())
@@ -43,7 +43,6 @@ public class TokenService {
                     .withIssuer("login-auth-api")
                     .build()
                     .verify(token);
-
             return true;
         }catch (JWTVerificationException e){
             return false;

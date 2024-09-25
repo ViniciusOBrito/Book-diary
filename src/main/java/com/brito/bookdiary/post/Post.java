@@ -2,6 +2,8 @@ package com.brito.bookdiary.post;
 
 import com.brito.bookdiary.book.Book;
 import com.brito.bookdiary.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,9 +20,11 @@ public class Post {
     private UUID id;
 
     @ManyToOne
+    @JsonManagedReference
     private User userAuthor;
 
     @ManyToOne
+    @JsonIgnore
     private Book book;
 
     @Column(name = "comment", nullable = false, length = 255)

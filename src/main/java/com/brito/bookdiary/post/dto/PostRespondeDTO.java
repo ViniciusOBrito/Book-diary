@@ -1,14 +1,14 @@
 package com.brito.bookdiary.post.dto;
 
-import com.brito.bookdiary.book.Book;
 import com.brito.bookdiary.post.Post;
-import com.brito.bookdiary.user.User;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record PostRespondeDTO(
-        User userAuthor,
-        Book book,
+        UUID userAuthorId,
+        String userAuthorEmail,
+        UUID bookId,
         String comment,
         LocalDateTime timestamp,
         Long fromPage,
@@ -17,8 +17,9 @@ public record PostRespondeDTO(
 
     public PostRespondeDTO(Post post){
         this(
-                post.getUserAuthor(),
-                post.getBook(),
+                post.getUserAuthor().getId(),
+                post.getUserAuthor().getEmail(),
+                post.getBook().getId(),
                 post.getComment(),
                 post.getTimestamp(),
                 post.getFromPage(),

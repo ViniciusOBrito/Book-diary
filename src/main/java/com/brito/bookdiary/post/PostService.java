@@ -8,7 +8,6 @@ import com.brito.bookdiary.security.TokenService;
 import com.brito.bookdiary.user.User;
 import com.brito.bookdiary.user.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +23,8 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public PostRespondeDTO createPost(PostRequestDTO dto, HttpRequest request){
-        String emailAuthor = tokenService.getEmailFromToken(request.toString());
+    public PostRespondeDTO createPost(PostRequestDTO dto){
+        String emailAuthor = dto.userEmail();
 
         User userAuthor = userService.findOrThrow(emailAuthor);
         Book book = bookService.findOrThrow(dto.bookId());

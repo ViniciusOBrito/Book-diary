@@ -23,7 +23,7 @@ public class BookshelfController {
     }
 
     @GetMapping("/category")
-    public ResponseEntity<BookshelfReponseDTO> getBookshelfByCategory(@RequestParam String category){
+    public ResponseEntity<BookshelfReponseDTO> getBookshelfByCategory(@RequestParam Category category){
         return ResponseEntity.ok(bookshelfService.getBookshelfByCategory(category));
     }
 
@@ -32,8 +32,4 @@ public class BookshelfController {
         return ResponseEntity.ok(bookshelfService.createBookshelf(dto));
     }
 
-    @PutMapping()
-    public ResponseEntity<BookshelfReponseDTO> addBookToBookshelf(@RequestBody @Valid BookshelfRequestDTO dto){
-        return ResponseEntity.ok(bookshelfService.addBooksToBookshelf(dto));
-    }
 }

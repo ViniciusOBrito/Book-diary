@@ -1,7 +1,6 @@
 package com.brito.bookdiary.publisher;
 
 import com.brito.bookdiary.book.Book;
-import com.brito.bookdiary.book.BookService;
 import com.brito.bookdiary.publisher.dto.PublisherRegisterRequestDTO;
 import com.brito.bookdiary.publisher.dto.PublisherRespondeDTO;
 import jakarta.transaction.Transactional;
@@ -17,8 +16,6 @@ import java.util.stream.Collectors;
 public class PublisherService {
 
     private final PublisherRepository publisherRepository;
-    private final BookService bookService;
-
 
     @Transactional
     public PublisherRespondeDTO registerPublisher(PublisherRegisterRequestDTO dto){
@@ -28,23 +25,19 @@ public class PublisherService {
         publisher.setName(dto.name());
         publisher.setEmail(dto.email());
 
-        publisher = publisherRepository.save(publisher);
+        publisher = savePublisher(publisher);
 
         return new PublisherRespondeDTO(publisher);
     }
-    @Transactional
-    public PublisherRespondeDTO addBooksToPublisher(UUID publisherId, List<Book> booksToLink){
 
-        Publisher publisher = findOrThrow(publisherId);
+    public Publisher savePublisher(Publisher publisher){
+        return publisherRepository.save(publisher);
+    }
 
-        List<Book> linkedBooks = booksToLink.stream()
-                .map(book -> bookService.findOrThrow(book.getId()))
-                .collect(Collectors.toList());
-
-        publisher.setBooks(linkedBooks);
-        publisher = publisherRepository.save(publisher);
-
-        return new PublisherRespondeDTO(publisher);
+    public void addBooksToPublisher(Publisher publisher, Book bookToLink){
+        List<Book> books = publisher.getBooks();
+        books.add(bookToLink);
+        this.savePublisher(publisher);
     }
 
     public List<PublisherRespondeDTO> getAllPublishers(){

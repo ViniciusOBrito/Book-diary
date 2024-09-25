@@ -3,7 +3,6 @@ package com.brito.bookdiary.author;
 import com.brito.bookdiary.author.dto.AuthorRegisterRequestDTO;
 import com.brito.bookdiary.author.dto.AuthorRespondeDTO;
 import com.brito.bookdiary.book.Book;
-import com.brito.bookdiary.book.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,6 @@ import java.util.stream.Collectors;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
-    private final BookService bookService;
 
     public List<AuthorRespondeDTO> getAllAuthors(){
         return authorRepository.findAll()
@@ -38,24 +36,20 @@ public class AuthorService {
         author.setEmail(dto.email());
         author.setDateOfBirth(getDateFromString(dto.dateOfBirth()));
 
-        author = authorRepository.save(author);
+        author = saveAuthor(author);
         return new AuthorRespondeDTO(author);
     }
 
-    @Transactional
-    public AuthorRespondeDTO addBooksToAuthor(UUID authorID , List<Book> booksToLink){
-
-        Author author = findOrThrow(authorID);
-
-        List<Book> linkedBooks = booksToLink.stream()
-                        .map(book -> bookService.findOrThrow(book.getId()))
-                        .collect(Collectors.toList());
-
-        author.setBooks(linkedBooks);
-        author = authorRepository.save(author);
-
-        return new AuthorRespondeDTO(author);
+    public Author saveAuthor(Author author) {
+        return authorRepository.save(author);
     }
+
+    public void addBooksToAuthor(Author author , Book bookToLink){
+        List<Book> books = author.getBooks();
+        books.add(bookToLink);
+        this.saveAuthor(author);
+    }
+
 
     public Author findOrThrow(UUID authorId){
         return authorRepository.findById(authorId)

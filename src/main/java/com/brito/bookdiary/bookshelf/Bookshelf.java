@@ -17,7 +17,7 @@ public class Bookshelf {
     private UUID id;
 
     @Column(name = "category", nullable = false, unique = true)
-    private String category;
+    private Category category;
 
     @OneToMany
     @JoinColumn(name = "bookshelf_id")

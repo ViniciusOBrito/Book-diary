@@ -22,18 +22,24 @@ public class SecurityConfig {
     private SecurityFilter securityFilter;
 
     private static final String[] ENDPOINTS_RELEASED = {
-            "api/auth/user/login",
-            "api/auth/user/register",
-            "api/auth/admin/login",
-            "api/auth/admin/register"
+            "/api/auth/user/login",
+            "/api/auth/user/register",
+            "/api/auth/admin/login",
+            "/api/auth/admin/register",
+            "/api/**"
     };
 
     private static final String[] ENDPOINTS_USER_ADMIN_AUTHORIZATION = {
-            "api/"
+            "/api/author",
+            "/api/bookshelf",
+            "/api/post"
     };
 
     private static final String[] ENDPOINTS_ADMIN_AUTHORIZATION = {
-            "api/"
+            "/api/author",
+            "/api/publisher",
+            "/api/book",
+            "/api/bookshelf"
     };
 
     @Bean
@@ -44,8 +50,6 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(ENDPOINTS_RELEASED).permitAll()
-                        .requestMatchers(ENDPOINTS_USER_ADMIN_AUTHORIZATION).hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers(ENDPOINTS_ADMIN_AUTHORIZATION).hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
