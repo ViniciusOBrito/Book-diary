@@ -22,25 +22,6 @@ public class SecurityConfig {
 
     private SecurityFilter securityFilter;
 
-    private static final String[] ENDPOINTS_RELEASED = {
-            "/api/auth/user/login",
-            "/api/auth/user/register",
-            "/api/auth/admin/login",
-            "/api/auth/admin/register"
-    };
-
-    private static final String[] ENDPOINTS_USER_ADMIN_AUTHORIZATION = {
-            "/api/author",
-            "/api/bookshelf",
-            "/api/post"
-    };
-
-    private static final String[] ENDPOINTS_ADMIN_AUTHORIZATION = {
-            "/api/author",
-            "/api/publisher",
-            "/api/book",
-            "/api/bookshelf"
-    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
@@ -49,8 +30,24 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(ENDPOINTS_RELEASED).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/author").hasAuthority("ADMIN")
+                        .requestMatchers( "/api/auth/user/login",
+                                "/api/auth/user/register",
+                                "/api/auth/admin/login",
+                                "/api/auth/admin/register").permitAll()
+
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/author",
+                                "/api/publisher",
+                                "/api/book",
+                                "/api/bookshelf").hasAuthority("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET,
+                                "/api/author",
+                                "/api/publisher",
+                                "/api/book",
+                                "/api/bookshelf",
+                                "/api/post").hasAnyAuthority("USER", "ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
