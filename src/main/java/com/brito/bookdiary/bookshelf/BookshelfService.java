@@ -3,7 +3,10 @@ package com.brito.bookdiary.bookshelf;
 import com.brito.bookdiary.book.Book;
 import com.brito.bookdiary.bookshelf.dto.BookshelfReponseDTO;
 import com.brito.bookdiary.bookshelf.dto.BookshelfRequestDTO;
+import com.brito.bookdiary.exception.ResourceAlreadyExistException;
+import com.brito.bookdiary.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +23,19 @@ public class BookshelfService {
     @Transactional
     public BookshelfReponseDTO createBookshelf(BookshelfRequestDTO dto){
 
-        Bookshelf bookshelf = new Bookshelf();
-        bookshelf.setCategory(dto.category());
-        bookshelf.setBooks(new ArrayList<>());
+        try {
 
-        bookshelf = bookshelfRepository.save(bookshelf);
+            Bookshelf bookshelf = new Bookshelf();
+            bookshelf.setCategory(dto.category());
+            bookshelf.setBooks(new ArrayList<>());
 
-        return new BookshelfReponseDTO(bookshelf);
+            bookshelf = bookshelfRepository.save(bookshelf);
 
+            return new BookshelfReponseDTO(bookshelf);
+
+        }catch (DataIntegrityViolationException e){
+            throw new ResourceAlreadyExistException(String.format("Bookshelf with the category %s already exist.", dto.category().getName()));
+        }
     }
 
     public void addBookToBookShelf(Book book){
@@ -51,6 +59,6 @@ public class BookshelfService {
 
     public Bookshelf findByCategoryOrThrow(Category category){
         return bookshelfRepository.findByCategory(category)
-                .orElseThrow(()-> new RuntimeException("Bookshelf with category " + category + " not found. You can create one."));
+                .orElseThrow(()-> new ResourceNotFoundException(String.format("Bookshelf with category %s not found. You can create one.", category.getName())));
     }
 }

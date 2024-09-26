@@ -1,6 +1,7 @@
 package com.brito.bookdiary.user;
 
 import com.brito.bookdiary.auth.dto.RegisterUserRequestDTO;
+import com.brito.bookdiary.exception.ResourceNotFoundException;
 import com.brito.bookdiary.security.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,12 +17,7 @@ public class UserService {
 
     public User findOrThrow(String email){
         return userRepository.findByEmail(email)
-                .orElseThrow(()-> new RuntimeException("Email not found."));
-    }
-
-    public void validateUserAlreadyExist(String email){
-        userRepository.findByEmail(email)
-                .ifPresent(user -> new RuntimeException("User with email "  + email +" already exist."));
+                .orElseThrow(()-> new ResourceNotFoundException(String.format("User with email %s not found.", email)));
     }
 
     public User createUser(RegisterUserRequestDTO dto, PasswordEncoder passwordEncoder){

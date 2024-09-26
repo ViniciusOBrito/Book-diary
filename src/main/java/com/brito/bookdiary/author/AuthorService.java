@@ -3,7 +3,10 @@ package com.brito.bookdiary.author;
 import com.brito.bookdiary.author.dto.AuthorRegisterRequestDTO;
 import com.brito.bookdiary.author.dto.AuthorRespondeDTO;
 import com.brito.bookdiary.book.Book;
+import com.brito.bookdiary.exception.ResourceAlreadyExistException;
+import com.brito.bookdiary.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,15 +32,19 @@ public class AuthorService {
 
     @Transactional
     public AuthorRespondeDTO registerAuthor(AuthorRegisterRequestDTO dto){
-        validateAuthorAlreadyExist(dto.email());
 
-        Author author = new Author();
-        author.setName(dto.name());
-        author.setEmail(dto.email());
-        author.setDateOfBirth(getDateFromString(dto.dateOfBirth()));
+        try {
+            Author author = new Author();
+            author.setName(dto.name());
+            author.setEmail(dto.email());
+            author.setDateOfBirth(getDateFromString(dto.dateOfBirth()));
 
-        author = saveAuthor(author);
-        return new AuthorRespondeDTO(author);
+            author = saveAuthor(author);
+            return new AuthorRespondeDTO(author);
+
+        }catch (DataIntegrityViolationException e){
+            throw new ResourceAlreadyExistException(String.format("Author with email %s already exist.", dto.email()));
+        }
     }
 
     public Author saveAuthor(Author author) {
@@ -53,13 +60,9 @@ public class AuthorService {
 
     public Author findOrThrow(UUID authorId){
         return authorRepository.findById(authorId)
-                .orElseThrow(()-> new RuntimeException("Author not found"));
+                .orElseThrow(()-> new ResourceNotFoundException(String.format("Author with id %s not found", authorId)));
     }
 
-    public void validateAuthorAlreadyExist(String email){
-        authorRepository.findByEmail(email)
-                .ifPresent(author -> new RuntimeException("Author with email " + email + " already register"));
-    }
 
     public Date getDateFromString(String date){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");

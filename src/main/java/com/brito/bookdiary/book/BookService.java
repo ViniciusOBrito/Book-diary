@@ -5,6 +5,8 @@ import com.brito.bookdiary.author.AuthorService;
 import com.brito.bookdiary.book.dto.BookRegisterRequestDTO;
 import com.brito.bookdiary.book.dto.BookRespondeDTO;
 import com.brito.bookdiary.bookshelf.BookshelfService;
+import com.brito.bookdiary.exception.ResourceAlreadyExistException;
+import com.brito.bookdiary.exception.ResourceNotFoundException;
 import com.brito.bookdiary.post.Post;
 import com.brito.bookdiary.publisher.Publisher;
 import com.brito.bookdiary.publisher.PublisherService;
@@ -50,7 +52,7 @@ public class BookService {
             return new BookRespondeDTO(book);
 
         }catch (DataIntegrityViolationException exception){
-            throw new RuntimeException("Book already exist.");
+            throw new ResourceAlreadyExistException(String.format("Book with title %s already exist", dto.title()));
         }
     }
 
@@ -80,8 +82,8 @@ public class BookService {
         bookshelfService.addBookToBookShelf(book);
     }
 
-    public Book findOrThrow(UUID id){
-        return bookRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Book not found."));
+    public Book findOrThrow(UUID bookId){
+        return bookRepository.findById(bookId)
+                .orElseThrow(()-> new ResourceNotFoundException(String.format("Book with id %s not found.", bookId)));
     }
 }

@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.brito.bookdiary.admin.Admin;
+import com.brito.bookdiary.exception.TokenException;
 import com.brito.bookdiary.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +34,8 @@ public class TokenService {
                     .withExpiresAt(generateExpirationInstant())
                     .sign(getAlgorithm());
         }catch (Exception e){
-            throw new RuntimeException("Error in creation of token", e);
+            log.error(" > TokenService.generateToken | Error to generate token: {}", e.getMessage());
+            throw new TokenException("Error while generate token access");
         }
     }
 
@@ -45,7 +47,7 @@ public class TokenService {
                     .verify(token);
             return true;
         } catch (JWTVerificationException e) {
-            log.error("Invalid JWT token: {}", e.getMessage());
+            log.error(" > TokenService.validateToken | Invalid JWT token: {}", e.getMessage());
             return false;
         } catch (Exception e) {
             log.error("Error validating JWT token: {}", e.getMessage());

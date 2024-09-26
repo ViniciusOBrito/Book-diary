@@ -6,6 +6,7 @@ import com.brito.bookdiary.auth.dto.LoginRequestDTO;
 import com.brito.bookdiary.auth.dto.RegisterAdminRequestDTO;
 import com.brito.bookdiary.auth.dto.RegisterUserRequestDTO;
 import com.brito.bookdiary.auth.dto.TokenResponseDTO;
+import com.brito.bookdiary.exception.InvalidCredentialException;
 import com.brito.bookdiary.security.TokenService;
 import com.brito.bookdiary.user.User;
 import com.brito.bookdiary.user.UserService;
@@ -34,13 +35,10 @@ public class AuthService {
             return new TokenResponseDTO(token, expireAt.toString(), user.getName());
         }
 
-        //trocar por uma exception dedicada
-        throw new RuntimeException("Credentials invalid");
+        throw new InvalidCredentialException();
     }
 
     public TokenResponseDTO registerUser(RegisterUserRequestDTO dto){
-
-        userService.validateUserAlreadyExist(dto.email());
 
         User user = userService.createUser(dto, passwordEncoder);
 
@@ -61,7 +59,7 @@ public class AuthService {
             return new TokenResponseDTO(token, expireAt.toString(), admin.getName());
         }
 
-        throw new RuntimeException("Credentials invalid");
+        throw new InvalidCredentialException();
     }
 
     public TokenResponseDTO registerAdmin(RegisterAdminRequestDTO dto){

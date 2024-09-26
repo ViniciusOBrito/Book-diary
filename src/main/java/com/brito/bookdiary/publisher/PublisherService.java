@@ -1,10 +1,13 @@
 package com.brito.bookdiary.publisher;
 
 import com.brito.bookdiary.book.Book;
+import com.brito.bookdiary.exception.ResourceAlreadyExistException;
+import com.brito.bookdiary.exception.ResourceNotFoundException;
 import com.brito.bookdiary.publisher.dto.PublisherRegisterRequestDTO;
 import com.brito.bookdiary.publisher.dto.PublisherRespondeDTO;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,15 +22,20 @@ public class PublisherService {
 
     @Transactional
     public PublisherRespondeDTO registerPublisher(PublisherRegisterRequestDTO dto){
-        validatePublisherAlreadyExist(dto.email());
 
-        Publisher publisher = new Publisher();
-        publisher.setName(dto.name());
-        publisher.setEmail(dto.email());
+        try {
+            Publisher publisher = new Publisher();
+            publisher.setName(dto.name());
+            publisher.setEmail(dto.email());
 
-        publisher = savePublisher(publisher);
+            publisher = savePublisher(publisher);
 
-        return new PublisherRespondeDTO(publisher);
+            return new PublisherRespondeDTO(publisher);
+
+        }catch (DataIntegrityViolationException e){
+            throw new ResourceAlreadyExistException(String.format("Publisher with email %s already exist.", dto.email()));
+        }
+
     }
 
     public Publisher savePublisher(Publisher publisher){
@@ -49,11 +57,7 @@ public class PublisherService {
 
     public Publisher findOrThrow(UUID publisherId){
         return publisherRepository.findById(publisherId)
-                .orElseThrow(()-> new RuntimeException("Publisher not found."));
+                .orElseThrow(()-> new ResourceNotFoundException(String.format("Publisher with id %s not found.", publisherId) ));
     }
 
-    public void validatePublisherAlreadyExist(String email){
-        publisherRepository.findByEmail(email)
-                .ifPresent(publisher -> new RuntimeException("Publisher with email " + email + " already ecist."));
-    }
 }
