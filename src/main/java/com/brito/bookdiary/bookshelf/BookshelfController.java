@@ -4,6 +4,7 @@ import com.brito.bookdiary.bookshelf.dto.BookshelfReponseDTO;
 import com.brito.bookdiary.bookshelf.dto.BookshelfRequestDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/bookshelf")
 @AllArgsConstructor
-public class BookshelfController {
+public class BookshelfController implements BookshelfResource{
 
     private final BookshelfService bookshelfService;
 
@@ -29,7 +30,7 @@ public class BookshelfController {
 
     @PostMapping
     public ResponseEntity<BookshelfReponseDTO> createBookshelf(@RequestBody @Valid BookshelfRequestDTO dto){
-        return ResponseEntity.ok(bookshelfService.createBookshelf(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookshelfService.createBookshelf(dto));
     }
 
 }
