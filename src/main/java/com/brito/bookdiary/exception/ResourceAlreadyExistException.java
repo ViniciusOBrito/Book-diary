@@ -13,9 +13,9 @@ public class ResourceAlreadyExistException extends BookDiaryException{
 
     @Override
     public ProblemDetail toProblemDetail() {
-        var pb = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        var pb = ProblemDetail.forStatus(HttpStatus.CONFLICT);
 
-        pb.setTitle("Entity already exist");
+        pb.setTitle("Resource already exist");
         pb.setDetail(detail);
 
         return pb;

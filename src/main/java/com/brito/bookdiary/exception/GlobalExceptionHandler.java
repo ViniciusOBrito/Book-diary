@@ -23,8 +23,8 @@ public class GlobalExceptionHandler {
 
         var pb = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
-        pb.setTitle("Os parametros da requisicao estao incorretos");
-        pb.setProperty("campos-invalidos", fieldErros);
+        pb.setTitle("The request parameters are incorrect\n");
+        pb.setProperty("invalid-fields", fieldErros);
 
         return pb;
     }

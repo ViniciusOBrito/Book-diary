@@ -1,7 +1,9 @@
 package com.brito.bookdiary.auth.dto;
 
+import com.brito.bookdiary.role.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Schema(name = "Register User Request DTO", description = "DTO for registering a new user")
 public record RegisterUserRequestDTO (
@@ -16,6 +18,8 @@ public record RegisterUserRequestDTO (
         String password,
         @Schema(description = "Phone of the new user", example = "98080-8080")
         @NotBlank(message = "Phone is required")
-        String phone
+        String phone,
+        @NotNull(message = "Role is required")
+        Role Role
 ){
 }

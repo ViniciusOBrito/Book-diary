@@ -16,7 +16,7 @@ public class ResourceNotFoundException extends BookDiaryException{
     public ProblemDetail toProblemDetail(){
         var pb = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
 
-        pb.setTitle("Entity not found");
+        pb.setTitle("Resource not found");
         pb.setDetail(detail);
 
         return pb;

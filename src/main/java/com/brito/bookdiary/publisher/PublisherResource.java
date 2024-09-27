@@ -21,7 +21,6 @@ public interface PublisherResource {
     })
     ResponseEntity<List<PublisherRespondeDTO>> getAllPublishers();
 
-
     @Operation(summary = "Create a new publisher", description = "Create a new publisher")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Publisher registered successfully"),

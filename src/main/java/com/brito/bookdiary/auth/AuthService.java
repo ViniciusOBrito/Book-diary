@@ -1,9 +1,5 @@
 package com.brito.bookdiary.auth;
-
-import com.brito.bookdiary.admin.Admin;
-import com.brito.bookdiary.admin.AdminService;
 import com.brito.bookdiary.auth.dto.LoginRequestDTO;
-import com.brito.bookdiary.auth.dto.RegisterAdminRequestDTO;
 import com.brito.bookdiary.auth.dto.RegisterUserRequestDTO;
 import com.brito.bookdiary.auth.dto.TokenResponseDTO;
 import com.brito.bookdiary.exception.InvalidCredentialException;
@@ -21,7 +17,6 @@ import java.time.Instant;
 public class AuthService {
 
     private final UserService userService;
-    private final AdminService adminService;
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
 
@@ -30,7 +25,7 @@ public class AuthService {
         User user = userService.findOrThrow(dto.email());
 
         if(passwordEncoder.matches(dto.password(), user.getPassword())){
-            String token = tokenService.generateUserToken(user);
+            String token = tokenService.generateToken(user);
             Instant expireAt = tokenService.generateExpirationInstant();
             return new TokenResponseDTO(token, expireAt.toString(), user.getName());
         }
@@ -42,35 +37,10 @@ public class AuthService {
 
         User user = userService.createUser(dto, passwordEncoder);
 
-        String token = tokenService.generateUserToken(user);
+        String token = tokenService.generateToken(user);
         Instant expireAt = tokenService.generateExpirationInstant();
 
         return new TokenResponseDTO(token, expireAt.toString(), user.getName());
     }
 
-    public TokenResponseDTO loginAdmin(LoginRequestDTO dto){
-
-        Admin admin = adminService.findOrThrow(dto.email());
-
-        if (passwordEncoder.matches(dto.password(), admin.getPassword())){
-            String token = tokenService.generateAdminToken(admin);
-            Instant expireAt = tokenService.generateExpirationInstant();
-
-            return new TokenResponseDTO(token, expireAt.toString(), admin.getName());
-        }
-
-        throw new InvalidCredentialException();
-    }
-
-    public TokenResponseDTO registerAdmin(RegisterAdminRequestDTO dto){
-
-        adminService.validateAdminAlreadyExist(dto.email());
-
-        Admin admin = adminService.createAdmin(dto, passwordEncoder);
-
-        String token = tokenService.generateAdminToken(admin);
-        Instant expireAt = tokenService.generateExpirationInstant();
-
-        return new TokenResponseDTO(token, expireAt.toString(), admin.getName());
-    }
 }

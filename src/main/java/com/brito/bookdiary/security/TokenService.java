@@ -3,7 +3,6 @@ package com.brito.bookdiary.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.brito.bookdiary.admin.Admin;
 import com.brito.bookdiary.exception.TokenException;
 import com.brito.bookdiary.user.User;
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +24,11 @@ public class TokenService {
         return Algorithm.HMAC256(jwtKey);
     }
 
-    public String generateToken(String subject,String role){
+    public String generateToken(User user){
         try{
             return JWT.create()
                     .withIssuer("login-auth-api")
-                    .withSubject(subject)
-                    .withClaim("role", role)
+                    .withSubject(user.getEmail())
                     .withExpiresAt(generateExpirationInstant())
                     .sign(getAlgorithm());
         }catch (Exception e){
@@ -53,14 +51,6 @@ public class TokenService {
             log.error("Error validating JWT token: {}", e.getMessage());
             return false;
         }
-    }
-
-    public String generateUserToken(User user){
-        return generateToken(user.getEmail(), "USER");
-    }
-
-    public String generateAdminToken(Admin admin){
-        return generateToken(admin.getEmail(), "ADMIN");
     }
 
     public String getEmailFromToken(String token){

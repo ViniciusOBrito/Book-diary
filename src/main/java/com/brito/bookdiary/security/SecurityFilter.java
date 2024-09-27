@@ -1,5 +1,6 @@
 package com.brito.bookdiary.security;
 
+import com.brito.bookdiary.user.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,16 +23,18 @@ import static java.util.Objects.nonNull;
 public class SecurityFilter extends OncePerRequestFilter {
 
     private TokenService tokenService;
+    private UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = getTokenFromRequest(request);
         if(nonNull(token) && tokenService.validateToken(token)){
-            String username = tokenService.getEmailFromToken(token);
-            String role = tokenService.getRoleFromToken(token);
+            String email = tokenService.getEmailFromToken(token);
+            UserDetails user = userService.findOrThrow(email);
+
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    username, null, Collections.singletonList(()-> role)
-            );
+                    email, null, user.getAuthorities());
+
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }

@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,9 @@ public class BookService {
     @Transactional
     public BookRespondeDTO registerBook(BookRegisterRequestDTO dto){
 
-        try{
+            if((bookRepository.findByTitle(dto.title()).isPresent())){
+                throw new ResourceAlreadyExistException(String.format("Book with title %s already exist", dto.title()));
+            }
 
             Author author = authorService.findOrThrow(dto.authorID());
             Publisher publisher = publisherService.findOrThrow(dto.publisherID());
@@ -51,9 +54,6 @@ public class BookService {
 
             return new BookRespondeDTO(book);
 
-        }catch (DataIntegrityViolationException exception){
-            throw new ResourceAlreadyExistException(String.format("Book with title %s already exist", dto.title()));
-        }
     }
 
     public List<BookRespondeDTO> getAllBooks(){
