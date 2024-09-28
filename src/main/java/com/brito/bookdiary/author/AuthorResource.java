@@ -1,6 +1,6 @@
 package com.brito.bookdiary.author;
 
-import com.brito.bookdiary.author.dto.AuthorRegisterRequestDTO;
+import com.brito.bookdiary.author.dto.AuthorRequestDTO;
 import com.brito.bookdiary.author.dto.AuthorRespondeDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,5 +27,5 @@ public interface AuthorResource {
             @ApiResponse(responseCode = "400", description = "Invalid input data"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    ResponseEntity<AuthorRespondeDTO> registerAuthor(@Valid AuthorRegisterRequestDTO dto);
+    ResponseEntity<AuthorRespondeDTO> registerAuthor(@Valid AuthorRequestDTO dto);
 }

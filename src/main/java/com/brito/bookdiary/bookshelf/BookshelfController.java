@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/bookshelf")
+@RequestMapping("api/bookshelfs")
 @AllArgsConstructor
 public class BookshelfController implements BookshelfResource{
 

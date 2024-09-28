@@ -19,6 +19,7 @@ public record RegisterUserRequestDTO (
         @Schema(description = "Phone of the new user", example = "98080-8080")
         @NotBlank(message = "Phone is required")
         String phone,
+        @Schema(description = "Role of the new user", example = "ADMIN")
         @NotNull(message = "Role is required")
         Role Role
 ){

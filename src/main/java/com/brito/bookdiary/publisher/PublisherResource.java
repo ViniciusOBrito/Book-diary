@@ -1,6 +1,6 @@
 package com.brito.bookdiary.publisher;
 
-import com.brito.bookdiary.publisher.dto.PublisherRegisterRequestDTO;
+import com.brito.bookdiary.publisher.dto.PublisherRequestDTO;
 import com.brito.bookdiary.publisher.dto.PublisherRespondeDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,5 +27,5 @@ public interface PublisherResource {
             @ApiResponse(responseCode = "400", description = "Invalid input data"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    ResponseEntity<PublisherRespondeDTO> registerPublisher(@Valid PublisherRegisterRequestDTO dto);
+    ResponseEntity<PublisherRespondeDTO> registerPublisher(@Valid PublisherRequestDTO dto);
 }

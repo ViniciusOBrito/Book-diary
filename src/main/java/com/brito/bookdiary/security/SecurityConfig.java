@@ -30,16 +30,16 @@ public class SecurityConfig {
     };
 
     private final String[] ENDPOINTS_ADMIN = {
-            "/api/book",
-            "api/author",
-            "/api/publisher",
-            "/api/bookshelf"
+            "/api/books",
+            "api/authors",
+            "/api/publishers",
+            "/api/bookshelfs"
     };
 
     private final String[] ENDPOINTS_ADMIN_USER = {
-            "/api/book",
-            "/api/post",
-            "/api/bookshelf"
+            "/api/books",
+            "/api/posts",
+            "/api/bookshelfs"
     };
 
     @Bean
@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,  ENDPOINTS_ADMIN).hasAuthority("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, ENDPOINTS_ADMIN_USER).hasAnyAuthority("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.POST, "/api/post").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers( "/api/posts/**").hasAnyAuthority("ADMIN", "USER")
 
                         .anyRequest().authenticated()
                 )

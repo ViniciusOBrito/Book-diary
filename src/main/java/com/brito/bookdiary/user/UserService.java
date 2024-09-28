@@ -4,12 +4,10 @@ import com.brito.bookdiary.auth.dto.RegisterUserRequestDTO;
 import com.brito.bookdiary.exception.ResourceAlreadyExistException;
 import com.brito.bookdiary.exception.ResourceNotFoundException;
 import com.brito.bookdiary.role.RoleService;
-import com.brito.bookdiary.security.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
 
 @Service
@@ -35,7 +33,7 @@ public class UserService {
         user.setEmail(dto.email());
         user.setPassword(passwordEncoder.encode(dto.password()));
         user.setPhone(dto.phone());
-        user.setRoles(Collections.singleton(roleService.getRoleByNameOrCreate(dto.Role().getName())));
+        user.setRoles(Collections.singleton(roleService.findOrCreate(dto.Role().getName())));
 
         return userRepository.save(user);
     }

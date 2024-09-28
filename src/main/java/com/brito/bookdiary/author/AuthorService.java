@@ -1,8 +1,9 @@
 package com.brito.bookdiary.author;
 
-import com.brito.bookdiary.author.dto.AuthorRegisterRequestDTO;
+import com.brito.bookdiary.author.dto.AuthorRequestDTO;
 import com.brito.bookdiary.author.dto.AuthorRespondeDTO;
 import com.brito.bookdiary.book.Book;
+import com.brito.bookdiary.exception.ParseDateException;
 import com.brito.bookdiary.exception.ResourceAlreadyExistException;
 import com.brito.bookdiary.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
@@ -27,11 +28,11 @@ public class AuthorService {
         return authorRepository.findAll()
                 .stream()
                 .map(AuthorRespondeDTO::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional
-    public AuthorRespondeDTO registerAuthor(AuthorRegisterRequestDTO dto){
+    public AuthorRespondeDTO registerAuthor(AuthorRequestDTO dto){
 
         try {
             Author author = new Author();
@@ -45,6 +46,18 @@ public class AuthorService {
         }catch (DataIntegrityViolationException e){
             throw new ResourceAlreadyExistException(String.format("Author with email %s already exist.", dto.email()));
         }
+    }
+
+    public AuthorRespondeDTO updateAuthor(UUID authorId, AuthorRequestDTO dto){
+        Author author =this.findOrThrow(authorId);
+
+        author.setName(dto.name());
+        author.setEmail(dto.email());
+        author.setDateOfBirth(getDateFromString(dto.dateOfBirth()));
+
+        author = authorRepository.save(author);
+
+        return new AuthorRespondeDTO(author);
     }
 
     public Author saveAuthor(Author author) {
@@ -64,12 +77,12 @@ public class AuthorService {
     }
 
 
-    public Date getDateFromString(String date){
+    public Date getDateFromString(String date) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
         try {
             return formatter.parse(date);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw new ParseDateException(String.format("Error while trying to parse date %s. Please send a date in format dd/mm/yyyy", date));
         }
     }
 }

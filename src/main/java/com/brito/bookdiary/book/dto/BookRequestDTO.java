@@ -7,8 +7,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-@Schema(name = "Book Register Request DTO", description = "DTO for registering a new book")
-public record BookRegisterRequestDTO(
+@Schema(name = "Book Request DTO", description = "DTO containing infos about the book")
+public record BookRequestDTO(
 
         @Schema(description = "Title of the book", example = "The outsider")
         @NotBlank(message = "Title is required")

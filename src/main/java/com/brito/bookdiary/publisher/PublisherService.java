@@ -3,7 +3,7 @@ package com.brito.bookdiary.publisher;
 import com.brito.bookdiary.book.Book;
 import com.brito.bookdiary.exception.ResourceAlreadyExistException;
 import com.brito.bookdiary.exception.ResourceNotFoundException;
-import com.brito.bookdiary.publisher.dto.PublisherRegisterRequestDTO;
+import com.brito.bookdiary.publisher.dto.PublisherRequestDTO;
 import com.brito.bookdiary.publisher.dto.PublisherRespondeDTO;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -20,8 +20,15 @@ public class PublisherService {
 
     private final PublisherRepository publisherRepository;
 
+    public List<PublisherRespondeDTO> getAllPublishers(){
+        return publisherRepository.findAll()
+                .stream()
+                .map(PublisherRespondeDTO::new)
+                .toList();
+    }
+
     @Transactional
-    public PublisherRespondeDTO registerPublisher(PublisherRegisterRequestDTO dto){
+    public PublisherRespondeDTO registerPublisher(PublisherRequestDTO dto){
 
         try {
             Publisher publisher = new Publisher();
@@ -38,6 +45,19 @@ public class PublisherService {
 
     }
 
+    @Transactional
+    public PublisherRespondeDTO updatePublisher(UUID publisherId, PublisherRequestDTO dto){
+
+        Publisher publisher = this.findOrThrow(publisherId);
+
+        publisher.setName(dto.name());
+        publisher.setEmail(dto.email());
+
+        publisher = publisherRepository.save(publisher);
+
+        return new PublisherRespondeDTO(publisher);
+    }
+
     public Publisher savePublisher(Publisher publisher){
         return publisherRepository.save(publisher);
     }
@@ -46,13 +66,6 @@ public class PublisherService {
         List<Book> books = publisher.getBooks();
         books.add(bookToLink);
         this.savePublisher(publisher);
-    }
-
-    public List<PublisherRespondeDTO> getAllPublishers(){
-        return publisherRepository.findAll()
-                .stream()
-                .map(PublisherRespondeDTO::new)
-                .collect(Collectors.toList());
     }
 
     public Publisher findOrThrow(UUID publisherId){

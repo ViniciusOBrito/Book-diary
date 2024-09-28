@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -19,7 +20,6 @@ public class PostService {
 
     private final UserService userService;
     private final BookService bookService;
-    private final TokenService tokenService;
     private final PostRepository postRepository;
 
     @Transactional
@@ -42,6 +42,15 @@ public class PostService {
         bookService.addPostToBook(post);
 
         return new PostRespondeDTO(post);
+    }
 
+    public List<PostRespondeDTO> getAllPostByUser(String userEmail){
+
+        User user = userService.findOrThrow(userEmail);
+
+        return postRepository.findAllByUserAuthorId(user.getId())
+                .stream()
+                .map(PostRespondeDTO::new)
+                .toList();
     }
 }
