@@ -23,7 +23,9 @@ public class BookshelfService {
     @Transactional
     public BookshelfReponseDTO createBookshelf(BookshelfRequestDTO dto){
 
-        try {
+            if (bookshelfRepository.findByCategory(dto.category()).isPresent()){
+                throw new ResourceAlreadyExistException(String.format("Bookshelf with the category %s already exist.", dto.category().getName()));
+            }
 
             Bookshelf bookshelf = new Bookshelf();
             bookshelf.setCategory(dto.category());
@@ -32,10 +34,6 @@ public class BookshelfService {
             bookshelf = bookshelfRepository.save(bookshelf);
 
             return new BookshelfReponseDTO(bookshelf);
-
-        }catch (DataIntegrityViolationException e){
-            throw new ResourceAlreadyExistException(String.format("Bookshelf with the category %s already exist.", dto.category().getName()));
-        }
     }
 
     public void addBookToBookShelf(Book book){

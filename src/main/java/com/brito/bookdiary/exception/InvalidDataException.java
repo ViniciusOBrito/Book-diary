@@ -3,11 +3,11 @@ package com.brito.bookdiary.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 
-public class ParseDateException extends BookDiaryException{
+public class InvalidDataException extends BookDiaryException{
 
     private final String detail;
 
-    public ParseDateException(String detail){
+    public InvalidDataException(String detail){
         this.detail = detail;
     }
 
@@ -15,7 +15,7 @@ public class ParseDateException extends BookDiaryException{
     public ProblemDetail toProblemDetail() {
         var pb = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
 
-        pb.setTitle("Erro while parsing date");
+        pb.setTitle("Invalid data");
         pb.setDetail(detail);
 
         return pb;

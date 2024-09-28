@@ -8,8 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.UUID;
 
 @Tag(name = "Authors Controller")
 public interface AuthorResource {
@@ -28,4 +30,12 @@ public interface AuthorResource {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     ResponseEntity<AuthorRespondeDTO> registerAuthor(@Valid AuthorRequestDTO dto);
+
+    @Operation(summary = "Update a author", description = "Update a author")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Author updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    ResponseEntity<AuthorRespondeDTO> updateAuthor(@PathVariable UUID authorId, @Valid AuthorRequestDTO dto);
 }

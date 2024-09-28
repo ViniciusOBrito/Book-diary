@@ -7,12 +7,10 @@ import com.brito.bookdiary.publisher.dto.PublisherRequestDTO;
 import com.brito.bookdiary.publisher.dto.PublisherRespondeDTO;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -30,7 +28,10 @@ public class PublisherService {
     @Transactional
     public PublisherRespondeDTO registerPublisher(PublisherRequestDTO dto){
 
-        try {
+            if (publisherRepository.findByEmail(dto.email()).isPresent()){
+                throw new ResourceAlreadyExistException(String.format("Publisher with email %s already exist.", dto.email()));
+            }
+
             Publisher publisher = new Publisher();
             publisher.setName(dto.name());
             publisher.setEmail(dto.email());
@@ -38,11 +39,6 @@ public class PublisherService {
             publisher = savePublisher(publisher);
 
             return new PublisherRespondeDTO(publisher);
-
-        }catch (DataIntegrityViolationException e){
-            throw new ResourceAlreadyExistException(String.format("Publisher with email %s already exist.", dto.email()));
-        }
-
     }
 
     @Transactional

@@ -15,4 +15,5 @@ public class BookDiaryApplication {
         SpringApplication.run(BookDiaryApplication.class, args);
     }
 
+
 }
