@@ -33,7 +33,7 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
     @JsonIgnore
-    @Column(name = "phone", unique = true)
+    @Column(name = "phone")
     private String phone;
     @OneToMany(mappedBy = "userAuthor")
     @JsonIgnore

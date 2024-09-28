@@ -4,7 +4,6 @@ import com.brito.bookdiary.book.Book;
 import com.brito.bookdiary.book.BookService;
 import com.brito.bookdiary.post.dto.PostRequestDTO;
 import com.brito.bookdiary.post.dto.PostRespondeDTO;
-import com.brito.bookdiary.security.TokenService;
 import com.brito.bookdiary.user.User;
 import com.brito.bookdiary.user.UserService;
 import lombok.AllArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -50,6 +50,7 @@ public class PostService {
 
         return postRepository.findAllByUserAuthorId(user.getId())
                 .stream()
+                .sorted(Comparator.comparing(Post::getTimestamp).reversed())
                 .map(PostRespondeDTO::new)
                 .toList();
     }

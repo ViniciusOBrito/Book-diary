@@ -26,7 +26,9 @@ public class SecurityConfig {
 
     private final String[] ENDPOINTS_RELEASED = {
             "/api/auth/login",
-            "api/auth/register"
+            "api/auth/register",
+            "/swagger-ui/**",
+            "/v3/api-docs/**"
     };
 
     private final String[] ENDPOINTS_ADMIN = {
@@ -38,8 +40,8 @@ public class SecurityConfig {
 
     private final String[] ENDPOINTS_ADMIN_USER = {
             "/api/books",
-            "/api/posts",
-            "/api/bookshelfs"
+            "/api/posts/**",
+            "/api/bookshelfs/**"
     };
 
     @Bean
@@ -54,7 +56,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,  ENDPOINTS_ADMIN).hasAuthority("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, ENDPOINTS_ADMIN_USER).hasAnyAuthority("ADMIN", "USER")
-                        .requestMatchers( "/api/posts/**").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST,"/api/posts").hasAnyAuthority("ADMIN", "USER")
 
                         .anyRequest().authenticated()
                 )
