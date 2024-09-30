@@ -1,5 +1,6 @@
-package com.brito.bookdiary.exception;
+package com.brito.bookdiary.exception.handler;
 
+import com.brito.bookdiary.exception.BookDiaryException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
