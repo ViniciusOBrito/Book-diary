@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,6 +36,7 @@ public class PublisherService {
             Publisher publisher = new Publisher();
             publisher.setName(dto.name());
             publisher.setEmail(dto.email());
+            publisher.setBooks(new ArrayList<>());
 
             publisher = savePublisher(publisher);
 

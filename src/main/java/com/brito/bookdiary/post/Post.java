@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -38,4 +39,17 @@ public class Post {
 
     @Column(name = "to_the_page", nullable = false)
     private Long toThePage;
+
+    public String toString(String action){
+        JSONObject json = new JSONObject();
+        json.put("id", this.id);
+        json.put("user_id", this.userAuthor.getId());
+        json.put("content", this.comment);
+        json.put("fromPage", this.fromPage);
+        json.put("toThePage", this.toThePage);
+        json.put("timestamp", this.timestamp);
+        json.put("action", action);
+
+        return json.toString();
+    }
 }

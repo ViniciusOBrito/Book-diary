@@ -1,5 +1,6 @@
 package com.brito.bookdiary.post;
 
+import com.brito.bookdiary.aws.AwsSnsService;
 import com.brito.bookdiary.book.Book;
 import com.brito.bookdiary.book.BookService;
 import com.brito.bookdiary.exception.InvalidDataException;
@@ -27,6 +28,7 @@ public class PostService {
     private final BookService bookService;
     private final PostRepository postRepository;
     private final TokenService tokenService;
+    private final AwsSnsService awsSnsService;
 
     @Transactional
     public PostRespondeDTO createPost(PostRequestDTO dto){
@@ -52,6 +54,8 @@ public class PostService {
 
         bookService.addPostToBook(post);
 
+        awsSnsService.publish(post.toString("ADD"));
+
         return new PostRespondeDTO(post);
     }
 
@@ -69,6 +73,8 @@ public class PostService {
     public void deletePost(UUID postId){
         Post post = this.findOrThrow(postId);
         postRepository.delete(post);
+
+        awsSnsService.publish(post.toString("REMOVE"));
     }
 
     public Post findOrThrow(UUID postId){
