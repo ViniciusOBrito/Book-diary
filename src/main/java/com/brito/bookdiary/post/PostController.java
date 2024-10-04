@@ -1,5 +1,6 @@
 package com.brito.bookdiary.post;
 
+import com.brito.bookdiary.post.dto.PostDTO;
 import com.brito.bookdiary.post.dto.PostRequestDTO;
 import com.brito.bookdiary.post.dto.PostRespondeDTO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +26,7 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<List<PostRespondeDTO>> getAllPostByUser(HttpServletRequest request){
+    public ResponseEntity<List<PostDTO>> getAllPostByUser(HttpServletRequest request){
         return ResponseEntity.ok(postService.getAllPostByUser(request));
     }
 

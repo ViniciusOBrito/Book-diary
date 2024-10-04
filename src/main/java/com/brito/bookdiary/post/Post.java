@@ -43,8 +43,8 @@ public class Post {
     public String toString(String action){
         JSONObject json = new JSONObject();
         json.put("id", this.id);
-        json.put("user_id", this.userAuthor.getId());
-        json.put("content", this.comment);
+        json.put("userId", this.userAuthor.getId());
+        json.put("comment", this.comment);
         json.put("fromPage", this.fromPage);
         json.put("toThePage", this.toThePage);
         json.put("timestamp", this.timestamp);

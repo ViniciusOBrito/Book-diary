@@ -1,22 +1,26 @@
 package com.brito.bookdiary.post;
 
+import com.brito.bookdiary.aws.AwsS3Service;
 import com.brito.bookdiary.aws.AwsSnsService;
 import com.brito.bookdiary.book.Book;
 import com.brito.bookdiary.book.BookService;
 import com.brito.bookdiary.exception.InvalidDataException;
 import com.brito.bookdiary.exception.ResourceNotFoundException;
+import com.brito.bookdiary.post.dto.PostDTO;
 import com.brito.bookdiary.post.dto.PostRequestDTO;
 import com.brito.bookdiary.post.dto.PostRespondeDTO;
 import com.brito.bookdiary.security.TokenService;
 import com.brito.bookdiary.user.User;
 import com.brito.bookdiary.user.UserService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +33,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final TokenService tokenService;
     private final AwsSnsService awsSnsService;
+    private final AwsS3Service awsS3Service;
 
     @Transactional
     public PostRespondeDTO createPost(PostRequestDTO dto){
@@ -59,15 +64,14 @@ public class PostService {
         return new PostRespondeDTO(post);
     }
 
-    public List<PostRespondeDTO> getAllPostByUser(HttpServletRequest request){
-
+    public List<PostDTO> getAllPostByUser(HttpServletRequest request){
+        Gson gson = new Gson();
         User user = tokenService.getUserFromRequest(request);
 
-        return postRepository.findAllByUserAuthorId(user.getId())
-                .stream()
-                .sorted(Comparator.comparing(Post::getTimestamp).reversed())
-                .map(PostRespondeDTO::new)
-                .toList();
+        String key = String.format("users/%s/posts.json", user.getId());
+        String json = awsS3Service.getPostContent(key);
+        Type postListType = new TypeToken<List<PostDTO>>(){}.getType();
+        return gson.fromJson(json, postListType);
     }
 
     public void deletePost(UUID postId){
