@@ -2,7 +2,6 @@ package com.brito.bookdiary.post.dto;
 
 import com.brito.bookdiary.post.Post;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

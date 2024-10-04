@@ -1,6 +1,7 @@
 package com.brito.bookdiary.security;
 
 
+import com.brito.bookdiary.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,9 +55,12 @@ public class SecurityConfig {
                         .requestMatchers( ENDPOINTS_RELEASED).permitAll()
 
                         .requestMatchers(HttpMethod.POST,  ENDPOINTS_ADMIN).hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, ENDPOINTS_ADMIN).hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, ENDPOINTS_ADMIN).hasAuthority("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, ENDPOINTS_ADMIN_USER).hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers(HttpMethod.POST,"/api/posts").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/posts/**").hasAnyAuthority("ADMIN", "USER")
 
                         .anyRequest().authenticated()
                 )
