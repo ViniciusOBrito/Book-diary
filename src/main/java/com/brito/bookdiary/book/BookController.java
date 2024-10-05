@@ -2,6 +2,7 @@ package com.brito.bookdiary.book;
 
 import com.brito.bookdiary.book.dto.BookRequestDTO;
 import com.brito.bookdiary.book.dto.BookRespondeDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,8 @@ public class BookController implements BookResource{
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<BookRespondeDTO>> getBooksByUser(@RequestParam String userEmail){
-        return ResponseEntity.ok(bookService.getBooksByUser(userEmail));
+    public ResponseEntity<List<BookRespondeDTO>> getBooksByUser(HttpServletRequest request){
+        return ResponseEntity.ok(bookService.getBooksByUser(request));
     }
 
     @PostMapping

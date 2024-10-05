@@ -10,8 +10,9 @@ import com.brito.bookdiary.exception.ResourceNotFoundException;
 import com.brito.bookdiary.post.Post;
 import com.brito.bookdiary.publisher.Publisher;
 import com.brito.bookdiary.publisher.PublisherService;
+import com.brito.bookdiary.security.TokenService;
 import com.brito.bookdiary.user.User;
-import com.brito.bookdiary.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +27,7 @@ public class BookService {
     private BookshelfService bookshelfService;
     private final AuthorService authorService;
     private final PublisherService publisherService;
-    private final UserService userService;
-
+    private TokenService tokenService;
 
 
     public List<BookRespondeDTO> getAllBooks(){
@@ -43,8 +43,8 @@ public class BookService {
         return new BookRespondeDTO(book);
     }
 
-    public List<BookRespondeDTO> getBooksByUser(String userEmail){
-        User user = userService.findOrThrow(userEmail);
+    public List<BookRespondeDTO> getBooksByUser(HttpServletRequest request){
+        User user = tokenService.getUserFromRequest(request);
 
         return bookRepository.findAll(BookSpecification.booksByUser(user.getId()))
                 .stream()

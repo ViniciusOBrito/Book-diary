@@ -11,17 +11,17 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-@Tag(name = "Bookshelfs Controller")
+@Tag(name = "Bookshelves Controller")
 public interface BookshelfResource {
 
-    @Operation(summary = "Find all bookshelfs", description = "Retrive a list of all bookshelfs")
+    @Operation(summary = "Find all bookshelves", description = "Retrieve a list of all bookshelves")
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "List of all bookshelfs retrieved successfully"),
+            @ApiResponse(responseCode = "200", description = "List of all bookshelves retrieved successfully"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     ResponseEntity<List<BookshelfReponseDTO>> getAllBookshelf();
 
-    @Operation(summary = "Find a bookshelf by the category", description = "Retrive a bookshelf by the category")
+    @Operation(summary = "Find a bookshelf by the category", description = "Retrieve a bookshelf by the category")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Bookshelf retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "Bookshelf not found"),

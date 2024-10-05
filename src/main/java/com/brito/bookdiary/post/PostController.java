@@ -16,13 +16,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/posts")
 @AllArgsConstructor
-public class PostController {
+public class PostController implements PostResource{
 
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<PostRespondeDTO> createPost(@RequestBody @Valid PostRequestDTO dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(dto));
+    public ResponseEntity<PostRespondeDTO> createPost(@RequestBody @Valid PostRequestDTO dto, HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(dto, request));
     }
 
     @GetMapping("/posts")

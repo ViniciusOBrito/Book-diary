@@ -36,15 +36,13 @@ public class PostService {
     private final AwsS3Service awsS3Service;
 
     @Transactional
-    public PostRespondeDTO createPost(PostRequestDTO dto){
+    public PostRespondeDTO createPost(PostRequestDTO dto, HttpServletRequest request){
 
         if (!isToThePageAfterFromPage(dto)){
             throw new InvalidDataException("The page final can't be grant than the inicial page.");
         }
 
-        String emailAuthor = dto.userEmail();
-
-        User userAuthor = userService.findOrThrow(emailAuthor);
+        User userAuthor = tokenService.getUserFromRequest(request);
         Book book = bookService.findOrThrow(dto.bookId());
 
         Post post = new Post();

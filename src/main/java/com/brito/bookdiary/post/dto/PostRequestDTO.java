@@ -8,9 +8,6 @@ import java.util.UUID;
 
 @Schema(name = "Post Request DTO", description = "DTO for registering a new post")
 public record PostRequestDTO(
-        @Schema(description = "Email of the user", example = "vinicius@example.com")
-        @NotBlank(message = "Email of the user is required")
-        String userEmail,
         @Schema(description = "Id of the book that is the post about", example = "3278f27a394....")
         @NotNull(message = "bookId is required")
         UUID bookId,

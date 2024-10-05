@@ -16,7 +16,7 @@ import java.util.UUID;
 @Tag(name = "Authors Controller")
 public interface AuthorResource {
 
-    @Operation(summary = "Find all authors", description = "Retrive a list of all authors.")
+    @Operation(summary = "Find all authors", description = "Retrieve a list of all authors.")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "List of all authors retrieved successfully"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
