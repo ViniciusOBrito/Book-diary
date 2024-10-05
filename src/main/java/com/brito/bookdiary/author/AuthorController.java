@@ -28,7 +28,7 @@ public class AuthorController implements AuthorResource{
         return ResponseEntity.status(HttpStatus.CREATED).body(authorService.registerAuthor(dto));
     }
 
-    @PutMapping
+    @PutMapping("/{authorId}")
     public ResponseEntity<AuthorRespondeDTO> updateAuthor(@PathVariable UUID authorId, @RequestBody @Valid AuthorRequestDTO dto){
         return ResponseEntity.ok(authorService.updateAuthor(authorId, dto));
     }
