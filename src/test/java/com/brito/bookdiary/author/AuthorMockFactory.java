@@ -12,13 +12,13 @@ public class AuthorMockFactory {
 
 
     public static AuthorRespondeDTO mockAuthorDTO(){
-        Author author = new Author();
-        author.setId(UUID.randomUUID());
-        author.setName("Name example mock");
-        author.setEmail("mock@example.com");
-        author.setDateOfBirth(new Date());
+        return new AuthorRespondeDTO(
+                UUID.randomUUID(),
+                "Name example",
+                new Date(),
+                new ArrayList<>()
 
-        return new AuthorRespondeDTO(author);
+        );
     }
 
     public static AuthorRequestDTO mockRequestAuthorDTO(){

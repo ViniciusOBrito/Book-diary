@@ -14,7 +14,7 @@ import java.util.UUID;
 public record BookRespondeDTO(
         @Schema(description = "Id of the book", example = "b2ce01ce116b477d....")
         UUID id,
-        @Schema(description = "Name of the book", example = "The outsider")
+        @Schema(description = "Title of the book", example = "The outsider")
         String name,
         @Schema(description = "Category of the book", example = "ROMANCE")
         Category category,
