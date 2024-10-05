@@ -1,4 +1,4 @@
-package com.brito.bookdiary.book;
+package com.brito.bookdiary.book.mock;
 
 import com.brito.bookdiary.author.Author;
 import com.brito.bookdiary.book.dto.BookRequestDTO;
