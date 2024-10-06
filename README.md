@@ -11,6 +11,10 @@ REST API developed to register authors, publishers, books, bookshelves and make 
     <summary>UML Diagram</summary>
     <img src="./images/UML Book Diary.png" alt="UML Diagram">
 </details>
+<details>
+    <summary>AWS Flow Diagram</summary>
+    <img src="./images/AWS_posts_flow.png" alt="AWS Flow Diagram">
+</details>
 
 ## API Flow
 
