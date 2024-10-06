@@ -11,7 +11,6 @@ import com.brito.bookdiary.post.dto.PostRequestDTO;
 import com.brito.bookdiary.post.dto.PostRespondeDTO;
 import com.brito.bookdiary.security.TokenService;
 import com.brito.bookdiary.user.User;
-import com.brito.bookdiary.user.UserService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +27,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PostService {
 
-    private final UserService userService;
     private final BookService bookService;
     private final PostRepository postRepository;
     private final TokenService tokenService;
