@@ -7,7 +7,6 @@ import com.brito.bookdiary.exception.InvalidDataException;
 import com.brito.bookdiary.exception.ResourceAlreadyExistException;
 import com.brito.bookdiary.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,13 +48,13 @@ public class AuthorService {
     }
 
     public AuthorRespondeDTO updateAuthor(UUID authorId, AuthorRequestDTO dto){
-        Author author =this.findOrThrow(authorId);
+        Author author = this.findOrThrow(authorId);
 
         author.setName(dto.name());
         author.setEmail(dto.email());
         author.setDateOfBirth(getDateFromString(dto.dateOfBirth()));
 
-        author = authorRepository.save(author);
+        author = saveAuthor(author);
 
         return new AuthorRespondeDTO(author);
     }

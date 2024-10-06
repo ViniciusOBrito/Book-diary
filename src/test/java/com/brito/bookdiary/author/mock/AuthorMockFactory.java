@@ -1,12 +1,10 @@
 package com.brito.bookdiary.author.mock;
 
+import com.brito.bookdiary.author.Author;
 import com.brito.bookdiary.author.dto.AuthorRequestDTO;
 import com.brito.bookdiary.author.dto.AuthorRespondeDTO;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class AuthorMockFactory {
 
@@ -14,11 +12,26 @@ public class AuthorMockFactory {
     public static AuthorRespondeDTO mockAuthorDTO(){
         return new AuthorRespondeDTO(
                 UUID.randomUUID(),
-                "Name example",
+                "Name",
                 new Date(),
                 new ArrayList<>()
 
         );
+    }
+
+    public static Author mockAuthor(){
+        Author author = new Author();
+        author.setId(UUID.randomUUID());
+        author.setEmail("example@example.com");
+        author.setName("Name");
+        author.setDateOfBirth(new Date());
+        author.setBooks(new ArrayList<>());
+
+        return author;
+    }
+
+    public static List<Author> mockListAuthors(){
+        return Collections.nCopies(2, mockAuthor());
     }
 
     public static AuthorRequestDTO mockRequestAuthorDTO(){

@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.brito.bookdiary.auth.mock.MockAuthFactory.mockLoginRequestDTO;
+import static com.brito.bookdiary.auth.mock.MockAuthFactory.mockRegisterUserRequestDTO;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,14 +44,14 @@ class AuthControllerTest {
 
     @BeforeEach
     void setUp(){
-        loginRequestDTO = new LoginRequestDTO("vinicius@example.com", "senha");
-        registerUserRequestDTO = new RegisterUserRequestDTO("vinicus", "vinicius@example.com", "senha", "98080-8080", new Role());
+        loginRequestDTO = mockLoginRequestDTO();
+        registerUserRequestDTO = mockRegisterUserRequestDTO();
     }
 
     @Test
     @WithMockUser(roles = {"ADMIN", "USER"})
     @DisplayName("Should return a token respose DTO with token when login is successful")
-    public void login_ReturnsResponseDTO_WhenSuccessful() throws Exception {
+    void login_ReturnsResponseDTO_WhenSuccessful() throws Exception {
         String json = objectMapper.writeValueAsString(loginRequestDTO);
 
         mockMvc
@@ -63,7 +65,7 @@ class AuthControllerTest {
     @Test
     @WithMockUser(roles = {"ADMIN", "USER"})
     @DisplayName("Should register a new user and return a TokenResposeDTO with a valid token")
-    public void register_SaveNewUser_ReturnsToken() throws Exception {
+    void register_SaveNewUser_ReturnsToken() throws Exception {
         String json = objectMapper.writeValueAsString(registerUserRequestDTO);
 
         mockMvc
