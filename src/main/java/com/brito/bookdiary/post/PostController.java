@@ -25,7 +25,7 @@ public class PostController implements PostResource{
         return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(dto, request));
     }
 
-    @GetMapping("/posts")
+    @GetMapping()
     public ResponseEntity<List<PostDTO>> getAllPostByUser(HttpServletRequest request){
         return ResponseEntity.ok(postService.getAllPostByUser(request));
     }
