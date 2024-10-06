@@ -1,6 +1,6 @@
 package com.brito.bookdiary.aws;
 
-import com.brito.bookdiary.exception.InvalidDataException;
+import com.brito.bookdiary.exception.AwsConnectionException;
 import com.brito.bookdiary.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +36,7 @@ public class AwsS3Service {
         } catch (NoSuchKeyException e) {
             throw new ResourceNotFoundException(String.format("Arquivo não encontrado no S3: %s", key) );
         } catch (S3Exception e) {
-            throw new InvalidDataException(String.format("Erro ao acessar o bucket S3: %s", e.awsErrorDetails().errorMessage()));
+            throw new AwsConnectionException(String.format("Erro ao acessar o bucket S3: %s", e.awsErrorDetails().errorMessage()));
         }
     }
 }
