@@ -1,5 +1,6 @@
 package com.brito.bookdiary.post.mock;
 
+import com.brito.bookdiary.post.Post;
 import com.brito.bookdiary.post.dto.PostDTO;
 import com.brito.bookdiary.post.dto.PostRequestDTO;
 
@@ -8,15 +9,30 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static com.brito.bookdiary.book.mock.BookMockFactory.mockBook;
+import static com.brito.bookdiary.user.MockUserFactory.mockUser;
+
 public class mockPostFactory {
 
     public static PostRequestDTO mockPostRequestDTO(){
         return new PostRequestDTO(
                 UUID.randomUUID(),
-                "Comment example",
+                "Comment",
                 10L,
                 11L
         );
+    }
+
+    public static Post mockPost(){
+        Post post = new Post();
+        post.setId(UUID.randomUUID());
+        post.setUserAuthor(mockUser());
+        post.setComment("Comment");
+        post.setFromPage(10L);
+        post.setToThePage(11L);
+        post.setBook(mockBook());
+
+        return post;
     }
 
     public static PostDTO mockPostDTO(){

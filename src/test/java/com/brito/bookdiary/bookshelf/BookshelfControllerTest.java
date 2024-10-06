@@ -1,6 +1,7 @@
 package com.brito.bookdiary.bookshelf;
 
 import com.brito.bookdiary.auth.AuthService;
+import com.brito.bookdiary.bookshelf.mock.mockBookshelfFactory;
 import com.brito.bookdiary.bookshelf.dto.BookshelfReponseDTO;
 import com.brito.bookdiary.bookshelf.dto.BookshelfRequestDTO;
 import com.brito.bookdiary.security.TokenService;
@@ -18,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static com.brito.bookdiary.bookshelf.mock.mockBookshelfFactory.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -49,9 +49,9 @@ class BookshelfControllerTest {
 
     @BeforeEach
     void setUp(){
-        bookshelfReponseDTO = mockBookshelfResponseDTO();
-        bookshelfRequestDTO = mockBookshelfRequestDTO();
-        bookshelfReponseDTOList = mockListBookshelfResponseDTO();
+        bookshelfReponseDTO = mockBookshelfFactory.mockBookshelfResponseDTO();
+        bookshelfRequestDTO = mockBookshelfFactory.mockBookshelfRequestDTO();
+        bookshelfReponseDTOList = mockBookshelfFactory.mockListBookshelfResponseDTO();
     }
 
     @Test

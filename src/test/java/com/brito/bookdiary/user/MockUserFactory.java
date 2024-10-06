@@ -7,8 +7,6 @@ import java.util.Collections;
 import java.util.UUID;
 
 public class MockUserFactory {
-
-
     public static User mockUser(){
         User user = new User();
         user.setId(UUID.randomUUID());

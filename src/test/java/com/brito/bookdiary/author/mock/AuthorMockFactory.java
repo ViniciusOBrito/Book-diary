@@ -10,13 +10,7 @@ public class AuthorMockFactory {
 
 
     public static AuthorRespondeDTO mockAuthorDTO(){
-        return new AuthorRespondeDTO(
-                UUID.randomUUID(),
-                "Name",
-                new Date(),
-                new ArrayList<>()
-
-        );
+        return new AuthorRespondeDTO(mockAuthor());
     }
 
     public static Author mockAuthor(){
@@ -34,15 +28,15 @@ public class AuthorMockFactory {
         return Collections.nCopies(2, mockAuthor());
     }
 
+    public static List<AuthorRespondeDTO> mockListAuthorDTO(){
+        return Collections.nCopies(2, mockAuthorDTO());
+    }
+
     public static AuthorRequestDTO mockRequestAuthorDTO(){
         return new AuthorRequestDTO(
                 "Name example",
                 "mock@example.com",
                 "10/10/2022"
         );
-    }
-
-    public static List<AuthorRespondeDTO> mockListAuthorDTO(){
-        return Collections.nCopies(2, mockAuthorDTO());
     }
 }

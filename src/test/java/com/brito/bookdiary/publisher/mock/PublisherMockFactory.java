@@ -13,12 +13,7 @@ import java.util.UUID;
 public class PublisherMockFactory {
 
     public static PublisherRespondeDTO mockPublisherResponseDTO(){
-        return new PublisherRespondeDTO(
-                UUID.randomUUID(),
-                "Name example",
-                "example@example.com",
-                new ArrayList<>()
-        );
+        return new PublisherRespondeDTO(mockPublisher());
     }
 
     public static Publisher mockPublisher(){

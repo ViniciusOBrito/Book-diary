@@ -15,15 +15,7 @@ import java.util.UUID;
 public class BookMockFactory {
 
     public static BookRespondeDTO mockBookResponseDTO(){
-        return new BookRespondeDTO(
-                UUID.randomUUID(),
-                "Title",
-                Category.HORROR,
-                new Author(),
-                new Publisher(),
-                200L,
-                new ArrayList<>()
-        );
+        return new BookRespondeDTO(mockBook());
     }
 
     public static Book mockBook(){
