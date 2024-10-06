@@ -55,7 +55,7 @@ REST API developed to register authors, publishers, books, bookshelves and make 
             const message = JSON.parse(record.body);
             const post = JSON.parse(message.Message);
             const action = post.action;
-            const userId = post.user_id;
+            const userId = post.userId;
 
             const s3FileKey = `users/${userId}/posts.json`;
 
@@ -156,6 +156,8 @@ REST API developed to register authors, publishers, books, bookshelves and make 
 </details>
 
 ## Configuration and execution
+
+Note: I didn't leave AWS dependencies available for security reasons and I also don't want to accidentally have to pay $100 for AWS expenses hahahah
 
 Prerequisite: Java 17, AWS Account, Docker
 1. Clone the repository
