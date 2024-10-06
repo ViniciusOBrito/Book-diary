@@ -43,10 +43,6 @@ public class AuthorMockFactory {
     }
 
     public static List<AuthorRespondeDTO> mockListAuthorDTO(){
-        List<AuthorRespondeDTO> mockListAuthorDto = new ArrayList<>();
-        mockListAuthorDto.add(mockAuthorDTO());
-        mockListAuthorDto.add(mockAuthorDTO());
-
-        return mockListAuthorDto;
+        return Collections.nCopies(2, mockAuthorDTO());
     }
 }

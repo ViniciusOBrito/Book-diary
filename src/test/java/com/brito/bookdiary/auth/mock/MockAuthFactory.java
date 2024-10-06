@@ -26,19 +26,7 @@ public class MockAuthFactory {
         );
     }
 
-    public static TokenResponseDTO mockTokenResponseDTO(){
-        return new TokenResponseDTO(
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...",
-                "2024-10-05T18:10:30.179877600Z",
-                "name"
-        );
-    }
-
     public static String mockToken(){
         return "eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...";
-    }
-
-    public static Instant mockExpirationInstant(){
-        return Instant.now().plusSeconds(3600);
     }
 }

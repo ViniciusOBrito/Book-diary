@@ -4,6 +4,7 @@ import com.brito.bookdiary.post.dto.PostDTO;
 import com.brito.bookdiary.post.dto.PostRequestDTO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,11 +31,6 @@ public class mockPostFactory {
     }
 
     public static List<PostDTO> mockListPostDTO(){
-        List<PostDTO> postDTOList = new ArrayList<>();
-
-        postDTOList.add(mockPostDTO());
-        postDTOList.add(mockPostDTO());
-
-        return postDTOList;
+        return Collections.nCopies(2, mockPostDTO());
     }
 }

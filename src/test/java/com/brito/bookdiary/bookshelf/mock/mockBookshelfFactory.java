@@ -3,8 +3,10 @@ package com.brito.bookdiary.bookshelf.mock;
 import com.brito.bookdiary.bookshelf.Category;
 import com.brito.bookdiary.bookshelf.dto.BookshelfReponseDTO;
 import com.brito.bookdiary.bookshelf.dto.BookshelfRequestDTO;
+import jakarta.servlet.http.Cookie;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class mockBookshelfFactory {
@@ -17,11 +19,7 @@ public class mockBookshelfFactory {
     }
 
     public static List<BookshelfReponseDTO> mockListBookshelfResponseDTO(){
-        List<BookshelfReponseDTO> bookshelfReponseDTOList = new ArrayList<>();
-        bookshelfReponseDTOList.add(mockBookshelfResponseDTO());
-        bookshelfReponseDTOList.add(mockBookshelfResponseDTO());
-
-        return bookshelfReponseDTOList;
+        return Collections.nCopies(2, mockBookshelfResponseDTO());
     }
 
     public static BookshelfRequestDTO mockBookshelfRequestDTO(){
